@@ -1,7 +1,7 @@
-{% if lastQuestionList %}
+% if latestQuestionList %}
     <ul>
-    {% for q in lastQuestionList %}
-    <li><a href="{% url 'polls:detail' question.id %}">{{ question.question_text }}</a></li>
+    {% for question in latestQuestionList %}
+        <li><a href="{% url 'polls:detail' question.id %}">{{ question.question_text }}</a></li>
     {% endfor %}
     </ul>
 {% else %}
