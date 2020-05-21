@@ -21,11 +21,15 @@ class DetailView(generic.DetailView):
     model = Question
     template_name = 'polls/detail.html'
 
+    def get_queryset(self):
+        return Question.objects.filter(pubDate__lte=timezone.now())
 
 class ResultsView(generic.DetailView):
     model = Question
     template_name = 'polls/results.html'
 
+    def get_queryset(self):
+        return Question.objects.filter(pubDate__lte=timezone.now())
 
 def vote(request, questionId):
     question = get_object_or_404(Question, pk=questionId)

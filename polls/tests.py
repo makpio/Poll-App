@@ -99,3 +99,45 @@ class QuestionIndexViewTests(TestCase):
             response.context['latestQuestionList'],
             ['<Question: Past question 2.>', '<Question: Past question 1.>']
         )
+
+class QuestionDetailViewTests(TestCase):
+    def testFutureQuestion(self):
+
+        # The detail view of a question with a pub_date in the future
+        # returns a 404 not found.
+ 
+        futureQuestion = createQuestion(questionText='Future question.', days=5)
+        url = reverse('polls:detail', args=(futureQuestion.id,))
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 404)
+
+    def testPastQuestion(self):
+    
+        # The detail view of a question with a pub_date in the past
+        # displays the question's text.
+
+        pastQuestion = createQuestion(questionText='Past Question.', days=-5)
+        url = reverse('polls:detail', args=(pastQuestion.id,))
+        response = self.client.get(url)
+        self.assertContains(response, pastQuestion.questionText)
+
+class QuestionResultsViewTests(TestCase):
+    def testFutureQuestion(self):
+
+        # The detail view of a question with a pub_date in the future
+        # returns a 404 not found.
+ 
+        futureQuestion = createQuestion(questionText='Future question.', days=5)
+        url = reverse('polls:results', args=(futureQuestion.id,))
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 404)
+
+    def testPastQuestion(self):
+    
+        # The detail view of a question with a pub_date in the past
+        # displays the question's text.
+
+        pastQuestion = createQuestion(questionText='Past Question.', days=-5)
+        url = reverse('polls:results', args=(pastQuestion.id,))
+        response = self.client.get(url)
+        self.assertContains(response, pastQuestion.questionText)
